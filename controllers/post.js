@@ -132,6 +132,28 @@ exports.getUserPage = async (req, res, next) => {
     }
 }
 
+exports.editUserInfo = async (req, res, next) => {
+    const bio = req.body.bio;
+
+    try {
+        const user = await User.findById(req.params.userId);
+
+        user.bio = bio;
+
+        await user.save();
+
+        res.status(200).json({message: "User bio updated", user: user});
+
+    } catch (err) {
+        if(!err.statusCode){
+            console.log(err)
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+    
+}
+
 exports.editPost = async (req, res, next) => {
     const postId = req.params.postId;
     console.log(req.body, req.file)

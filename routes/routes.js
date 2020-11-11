@@ -27,4 +27,7 @@ router.get('/users', postController.getUserList);
 router.get('/users/:userId', postController.getUserPage)
 //get a specific user
 
+router.put('/users/:userId', postController.editUserInfo)
+
+
 module.exports = router;
