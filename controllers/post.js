@@ -199,7 +199,6 @@ exports.editPost = async (req, res, next) => {
         }
         
         await postToUpdate.save();
-        updateUser(postToUpdate, req.body.userId);
         res.status(201).json({
             message: 'Post edited sucessfully'
         })
