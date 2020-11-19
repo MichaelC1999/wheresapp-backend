@@ -11,8 +11,9 @@ updateUser = async (post, userId) => {
 }
 
 exports.getFeed = async (req, res, next) => {
+    const page = req.params.pageCount;
     try { 
-        const posts = await Post.find().sort({"createdAt": "desc"}).populate('creator');
+        const posts = await Post.find().skip((counter) *3).limit(3).sort({"createdAt": "desc"}).populate('creator');
         if(!posts){
             const error = Error("No posts found")
             error.statusCode = 404;

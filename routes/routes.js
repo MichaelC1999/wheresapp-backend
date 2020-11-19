@@ -4,7 +4,7 @@ const postController = require('../controllers/post');
 const isAuth = require('../middleware/isAuth');
 const router = express.Router();
 
-router.get('/posts', postController.getFeed)
+router.get('/posts/:pageCount', postController.getFeed)
 //get all posts by all users
 
 router.post('/posts', isAuth, postController.newPost);
