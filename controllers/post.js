@@ -16,7 +16,7 @@ exports.getFeed = async (req, res, next) => {
     
     let hasNextSet;
     try { 
-        const postCount =  await User.countDocuments({}).exec()
+        const postCount =  await Post.countDocuments({}).exec()
         const posts = await Post.find().skip((page) * limit).limit(limit).sort({"createdAt": "desc"}).populate('creator');
         if(!posts){
             const error = Error("No posts found")
