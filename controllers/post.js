@@ -22,7 +22,7 @@ exports.getFeed = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        console.log(postCount)
+        console.log(typeof(postCount))
         if(postCount-(page*limit) > limit){
             hasNextSet = true;
         } else {
