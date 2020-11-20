@@ -13,9 +13,10 @@ updateUser = async (post, userId) => {
 exports.getFeed = async (req, res, next) => {
     const limit = 3;
     const page = req.params.pageCount;
-    const postCount = User.countDocuments()
+    
     let hasNextSet;
     try { 
+        const postCount =  await User.countDocuments({}).exec()
         const posts = await Post.find().skip((page) * limit).limit(limit).sort({"createdAt": "desc"}).populate('creator');
         if(!posts){
             const error = Error("No posts found")
