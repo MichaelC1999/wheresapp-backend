@@ -11,15 +11,23 @@ updateUser = async (post, userId) => {
 }
 
 exports.getFeed = async (req, res, next) => {
+    const limit = 3;
     const page = req.params.pageCount;
+    const postCount = User.countDocuments({})
+    let hasNextSet;
     try { 
-        const posts = await Post.find().skip((page) *3).limit(3).sort({"createdAt": "desc"}).populate('creator');
+        const posts = await Post.find().skip((page) * limit).limit(limit).sort({"createdAt": "desc"}).populate('creator');
         if(!posts){
             const error = Error("No posts found")
             error.statusCode = 404;
             throw error;
         }
-        res.status(200).json({message: 'Posts found', posts: posts});
+        if(postCount-(page*limit) > limit){
+            hasNextSet = true;
+        } else {
+            hasNextSet = false;
+        }
+        res.status(200).json({message: 'Posts found', posts: posts, next: hasNextSet});
     } catch (err) {
         console.log(err);
         if(!err.statusCode){
