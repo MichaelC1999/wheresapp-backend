@@ -13,7 +13,7 @@ updateUser = async (post, userId) => {
 exports.getFeed = async (req, res, next) => {
     const limit = 3;
     const page = req.params.pageCount;
-    const postCount = User.countDocuments({})
+    const postCount = User.countDocuments()
     let hasNextSet;
     try { 
         const posts = await Post.find().skip((page) * limit).limit(limit).sort({"createdAt": "desc"}).populate('creator');
@@ -22,7 +22,7 @@ exports.getFeed = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        console.log(typeof(postCount))
+        console.log((postCount))
         if(postCount-(page*limit) > limit){
             hasNextSet = true;
         } else {
