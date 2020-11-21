@@ -17,7 +17,7 @@ exports.getFeed = async (req, res, next) => {
     let hasNextSet;
     try { 
         const postCount =  await Post.countDocuments({}).exec()
-        const posts = await Post.find().skip((page) * limit).limit(limit).sort({"createdAt": "desc"}).populate('creator');
+        const posts = await Post.find().skip((page) * limit).limit(limit).sort({"createdAt": "desc"}).populate('creator').populate({path: 'comments', populate: { path:  'creator', model: 'User' }});
         if(!posts){
             const error = Error("No posts found")
             error.statusCode = 404;
@@ -45,12 +45,9 @@ exports.newPost = async (req, res, next) => {
     const location = req.body.location;
     const userId = req.body.userId;
 
-    
-    
     console.log(req.body, req.file)
     try {
 
-        
         if(!title || !desc || !location || !userId){
             const error = Error('Did not receive sufficient data to create a post.');
             error.statusCode = 409;
@@ -100,7 +97,6 @@ exports.newComment = async (req, res, next) => {
     const userId = req.body.userId;
     const comment = req.body.comment;
     
-
     try {
 
         const post = await Post.findById(req.params.postId)
