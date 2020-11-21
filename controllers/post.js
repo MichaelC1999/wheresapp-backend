@@ -11,7 +11,7 @@ updateUser = async (post, userId) => {
 }
 
 exports.getFeed = async (req, res, next) => {
-    const limit = 3;
+    const limit = 20;
     const page = req.params.pageCount;
     
     let hasNextSet;
@@ -94,6 +94,31 @@ exports.newPost = async (req, res, next) => {
         next(err);
     }
     
+}
+
+exports.newComment = async (req, res, next) => {
+    const userId = req.body.userId;
+    const comment = req.body.comment;
+    
+
+    try {
+
+        const post = await Post.findById(req.params.postId)
+
+        post.comments.push({creator: userId, content: comment})
+
+        await post.save()
+
+        res.status(200).json({message: "User comment posted", comment: comment});
+
+
+    } catch (err) {
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);       
+    }
+
 }
 
 exports.getUserList = async (req, res, next) => {

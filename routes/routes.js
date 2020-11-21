@@ -13,6 +13,8 @@ router.post('/posts', isAuth, postController.newPost);
 router.put('/posts/:postId', isAuth, postController.editPost);
 //edit a specific post by Id
 
+router.post('/posts/:postId/newComment', isAuth, postController.newComment)
+
 router.delete('/posts/:postId', isAuth, postController.deletePost);
 
 router.post('/login', authController.login);
