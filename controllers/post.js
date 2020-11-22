@@ -165,8 +165,7 @@ exports.getUserPage = async (req, res, next) => {
     
     try {
         user = await User.findById(getPageByUserId).populate('posts');
-        console.log(user.posts.sort({"createdAt": "desc"}))
-        const posts = user.posts.sort({"createdAt": "desc"}).populate({path: 'comments', populate: { path:  'creator', model: 'User' }});
+        const posts = user.posts.populate({path: 'comments', populate: { path:  'creator', model: 'User' }});
         if(!user){
             const error = Error("No user found");
             error.statusCode = 404;
