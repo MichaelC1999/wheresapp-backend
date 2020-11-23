@@ -16,7 +16,7 @@ router.put('/posts/:postId', isAuth, postController.editPost);
 router.post('/posts/:postId/newComment', isAuth, postController.newComment);
 //Add a new comment
 
-router.put('/posts/:postId/editComment', isAuth, postController.editComment);
+//router.put('/posts/:postId/editComment', isAuth, postController.editComment);
 
 router.delete('/posts/:postId', isAuth, postController.deletePost);
 
