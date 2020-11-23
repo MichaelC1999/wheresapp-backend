@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const uploadCloudinary = require('../util/uploadCloudinary');
 
 exports.signup = async (req, res, next) => {
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const name = req.body.name;
     let password = req.body.password;
     let user;
@@ -53,7 +53,7 @@ exports.signup = async (req, res, next) => {
 }
 
 exports.login = async (req, res, next) => {
-    const email = req.body.email;
+    const email = req.body.email.toLowerCase();
     const password = req.body.password;
     try {
         console.log(email)
