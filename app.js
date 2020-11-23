@@ -59,7 +59,11 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ufyip.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`)
     .then(result => {
-        app.listen(process.env.PORT || 5000);
+        const server = app.listen(process.env.PORT || 5000);
+        const io = require('socket.io')(server);
+        io.on('connecton', socket => {
+            console.log('client connected')
+        })
         console.log('connected')
     })
     .catch(err => console.log(err))
