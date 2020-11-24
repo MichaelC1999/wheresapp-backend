@@ -9,11 +9,7 @@ exports.signup = async (req, res, next) => {
     let password = req.body.password;
     let user;
 
-    console.log(req.file)
-
     try {
-
-        
 
         const userDoc = await User.findOne({email: email})
         
@@ -56,14 +52,12 @@ exports.login = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     try {
-        console.log(email)
         const user = await User.findOne({email: email})
         if(!user){
             const error = Error('No user found');
             error.statusCode = 404;
             throw error;
         }
-        console.log(user)
         const isEqual = await bcrypt.compare(password, user.password);
         //compares input login password to stored encrypted password
     

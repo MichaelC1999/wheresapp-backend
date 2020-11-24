@@ -52,7 +52,6 @@ app.use((error, req, res, next) => {
     const status = error.statusCode || 500;
     const message = error.message;
     const data = error.data;
-    console.log(message)
     res.status(status).json({message: message, data: data})
 })
 
@@ -66,7 +65,7 @@ mongoose
            }
         const io = require('./socket').init(server);
         io.on('connection', socket => {
-            console.log('client connected')
+            console.log('client socket connected')
         })
         console.log('connected')
     })

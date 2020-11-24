@@ -24,7 +24,6 @@ exports.getFeed = async (req, res, next) => {
             error.statusCode = 404;
             throw error;
         }
-        console.log((postCount))
         if(postCount-(page*limit) > limit){
             hasNextSet = true;
         } else {
@@ -46,7 +45,6 @@ exports.newPost = async (req, res, next) => {
     const location = req.body.location;
     const userId = req.body.userId;
 
-    console.log(req.body, req.file)
     try {
 
         if(!title || !desc || !location || !userId){
@@ -216,12 +214,9 @@ exports.editUserInfo = async (req, res, next) => {
 
 exports.editPost = async (req, res, next) => {
     const postId = req.params.postId;
-    console.log(req.body, req.file)
     //get post, attach updated info
     //does it include a new image file? if so, upload. if not, use legacy photo
     
-    
-
     try {
         
         if(!postId){
@@ -239,7 +234,6 @@ exports.editPost = async (req, res, next) => {
         }
         
         if(req.body.userId !== postToUpdate.creator.toString()){
-            console.log(typeof(req.body.userId), typeof(postToUpdate.creator.toString()))
             const error = new Error('You cannot edit posts by another user!');
             error.statusCode = 403;
             throw error

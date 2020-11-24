@@ -3,7 +3,6 @@ const {cloudinary} = require('../cloudinary');
 module.exports = async (filePath) => {
     let imagePath = ""
     
-    console.log(filePath)
     try {
         const uploadedResponse = await cloudinary.uploader.upload(filePath, {
             upload_preset: 'dev_setups'
