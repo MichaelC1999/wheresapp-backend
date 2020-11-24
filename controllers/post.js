@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const User = require('../models/user');
+const io = require('../socket');
 const uploadCloudinary = require('../util/uploadCloudinary');
 
 updateUser = async (post, userId) => {
@@ -79,6 +80,8 @@ exports.newPost = async (req, res, next) => {
         
         await post.save();
         updateUser(post, userId);
+
+        io.getIO().emit('posts', {action: 'newPost', post: post})
 
         res.status(201).json({
             message: 'Post created sucessfully',
