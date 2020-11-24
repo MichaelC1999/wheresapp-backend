@@ -60,8 +60,12 @@ mongoose
     .connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ufyip.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`)
     .then(result => {
         const server = app.listen(process.env.PORT || 5000);
-        const io = require('socket.io')(server);
-        io.on('connecton', socket => {
+        const options={
+            cors:true,
+            origins:"*",
+           }
+        const io = require('socket.io')(server, options);
+        io.on('connection', socket => {
             console.log('client connected')
         })
         console.log('connected')
