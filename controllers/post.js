@@ -81,7 +81,7 @@ exports.newPost = async (req, res, next) => {
         await post.save();
         updateUser(post, userId);
 
-        const name = await User.findById(userId).name
+        const name = await User.findById(userId)
 
         io.getIO().emit('posts', {action: 'newPost', post: {...post._doc, creator: {_id:userId, name: name}}})
 
