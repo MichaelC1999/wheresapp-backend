@@ -81,9 +81,10 @@ exports.newPost = async (req, res, next) => {
         await post.save();
         updateUser(post, userId);
 
-        const name = User.findById(userId).name
+        const name = User.findById(userId)
 
-        io.getIO().emit('posts', {action: 'newPost', post: {...post._doc, creator: {_id:req.userId, name: name}}})
+
+        io.getIO().emit('posts', {action: 'newPost', post: {...post._doc, creator: {_id:userId, name: name}}, name: name})
 
         res.status(201).json({
             message: 'Post created sucessfully',
