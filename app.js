@@ -2,11 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
+const dotenv = require('dotenv');
+
 const path = require('path');
 
 const routes = require('./routes/routes');
 
 const app = express();
+dotenv.config();
+
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {

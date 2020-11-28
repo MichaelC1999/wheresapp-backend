@@ -122,24 +122,49 @@ exports.newComment = async (req, res, next) => {
 
 //Need to learn how to find a sub document by Id, currently returns error
 
-// exports.editComment = async (req, res, next) => {
-//     const comment = req.body.comment;
+exports.editComment = async (req, res, next) => {
+    const comment = req.body.comment;
+    const commentIdx = req.params.commentIdx;
 
-//     try {
-//         const postComment = await Post.findById(req.params.postId).comments.findById(req.body.commentId);
-//         postComment.content = comment;
+    try {
+        
+        const post = await Post.findById(req.params.postId)
+        
+        post.comments[commentIdx].content = comment
+    
+        post.save();
 
-//         postComment.save();
+        res.status(200).json({message: "User comment edited"});
 
-//         res.status(200).json({message: "User comment edited"});
+    } catch (err) {
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);     
+    }
+} 
 
-//     } catch (err) {
-//         if(!err.statusCode){
-//             err.statusCode = 500;
-//         }
-//         next(err);     
-//     }
-// }
+exports.deleteComment = async (req, res, next) => {
+    const commentIdx = req.params.commentIdx;
+
+    try {
+        
+        const post = await Post.findById(req.params.postId)
+        
+        post.comments.splice(commentIdx, 1)
+    
+        post.save();
+
+        res.status(200).json({message: "User comment deleted"});
+
+    } catch (err) {
+        if(!err.statusCode){
+            err.statusCode = 500;
+        }
+        next(err);     
+    }
+} 
+
 
 exports.getUserList = async (req, res, next) => {
     
