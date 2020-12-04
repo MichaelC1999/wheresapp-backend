@@ -3,9 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const dotenv = require('dotenv');
-
-const path = require('path');
-
+const path = require('path')
 const routes = require('./routes/routes');
 
 const app = express();
@@ -14,10 +12,10 @@ dotenv.config();
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'images');
+        cb(null,  path.join(__dirname, '/images/'));
     },
     filename: (req, file, cb) => {
-        cb(null, new Date().toISOString() + '-' + file.originalname)
+        cb(null, new Date().toISOString().split(':')[0] + '-' + file.originalname)
     }
 })
 
@@ -39,16 +37,15 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
- app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
-// app.use('/images', express.static(path.join(__dirname, 'images')))
-
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Origin', 'https://wheresapp-application.herokuapp.com')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE')
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     next();
 })
 
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+app.use(express.static(path.join(__dirname, './images/')))
 app.use('/', routes)
 
 app.use((error, req, res, next) => {

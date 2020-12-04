@@ -1,0 +1,1 @@
+Place holder file to ensure that the hosting service keeps the images directory

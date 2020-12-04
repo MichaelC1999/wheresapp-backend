@@ -1,8 +1,15 @@
-const {cloudinary} = require('../cloudinary');
 
 module.exports = async (filePath) => {
+
     let imagePath = ""
     
+    const cloudinary = require('cloudinary').v2;
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+
     try {
         const uploadedResponse = await cloudinary.uploader.upload(filePath, {
             upload_preset: 'dev_setups'
@@ -11,10 +18,8 @@ module.exports = async (filePath) => {
         
 
     } catch(err) {
-        if(!err.statusCode){
-            err.statusCode = 500;
-        }
-        next(err);
+        const error = new Error(err)
+        throw error
     }
     
     return imagePath;
